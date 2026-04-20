@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ChoreoStaff</title>
+  <link rel="icon" type="image/jpeg" href="choreostafflogo.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #050b1a;
+      --navy-mid: #0a1428;
+      --navy-card: #0d1a36;
+      --blue-bright: #4f8ef7;
+      --blue-mid: #2563eb;
+      --purple: #7c3aed;
+      --purple-soft: #a78bfa;
+      --purple-glow: rgba(124, 58, 237, 0.18);
+      --blue-glow: rgba(79, 142, 247, 0.14);
+      --text-primary: #f0f4ff;
+      --text-secondary: #8fa3c8;
+      --text-muted: #4e6488;
+      --border: rgba(79, 142, 247, 0.12);
+      --border-hover: rgba(124, 58, 237, 0.35);
+      --gradient-hero: linear-gradient(135deg, #050b1a 0%, #0a0f2c 50%, #0e0a20 100%);
+      --gradient-accent: linear-gradient(135deg, #2563eb, #7c3aed);
+      --gradient-text: linear-gradient(135deg, #7dd3fc, #818cf8, #c084fc);
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --radius-sm: 10px;
+      --font-display: 'Syne', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--navy);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.65;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.025;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── AMBIENT ORBS ── */
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(120px);
+      pointer-events: none;
+      z-index: 0;
+      animation: drift 18s ease-in-out infinite;
+    }
+    .orb-1 { width: 600px; height: 600px; background: radial-gradient(circle, rgba(37,99,235,0.2), transparent 70%); top: -150px; left: -100px; animation-delay: 0s; }
+    .orb-2 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(124,58,237,0.18), transparent 70%); top: 30%; right: -100px; animation-delay: -6s; }
+    .orb-3 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(79,142,247,0.12), transparent 70%); bottom: 10%; left: 20%; animation-delay: -12s; }
+
+    @keyframes drift {
+      0%, 100% { transform: translate(0,0); }
+      33% { transform: translate(30px, -40px); }
+      66% { transform: translate(-20px, 30px); }
+    }
+
+    /* ── LAYOUT ── */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 16px 24px;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      background: rgba(5, 11, 26, 0.6);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.3s;
+    }
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 700;
+      background: var(--gradient-text);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+      letter-spacing: 0.01em;
+    }
+    .nav-links a:hover { color: var(--text-primary); }
+    .nav-cta {
+      background: var(--gradient-accent);
+      color: #fff !important;
+      padding: 9px 22px;
+      border-radius: 50px;
+      font-weight: 600 !important;
+      font-size: 0.875rem !important;
+      transition: opacity 0.2s, transform 0.2s !important;
+      box-shadow: 0 0 20px rgba(124, 58, 237, 0.35);
+    }
+    .nav-cta:hover { opacity: 0.88; transform: translateY(-1px) !important; }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+      background: none;
+      border: none;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--text-secondary);
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 65px; left: 0; right: 0;
+      background: rgba(5, 11, 26, 0.97);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 24px 28px;
+      z-index: 99;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 500;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      transition: color 0.2s;
+    }
+    .mobile-menu a:last-child { border-bottom: none; }
+    .mobile-menu a:hover { color: var(--text-primary); }
+    .mob-cta {
+      background: var(--gradient-accent) !important;
+      color: #fff !important;
+      padding: 12px 22px;
+      border-radius: 50px;
+      text-align: center;
+      font-weight: 600 !important;
+      margin-top: 4px;
+      border-bottom: none !important;
+      box-shadow: 0 0 20px rgba(124, 58, 237, 0.3);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 120px 0 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(79, 142, 247, 0.1);
+      border: 1px solid rgba(79, 142, 247, 0.25);
+      border-radius: 50px;
+      padding: 7px 16px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--blue-bright);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+    .hero-badge .dot {
+      width: 6px; height: 6px;
+      background: #4ade80;
+      border-radius: 50%;
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.75); }
+    }
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.6rem, 6vw, 4.2rem);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      margin-bottom: 24px;
+      max-width: 720px;
+    }
+    .hero h1 .highlight {
+      background: var(--gradient-text);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      max-width: 560px;
+      line-height: 1.7;
+      margin-bottom: 44px;
+      font-weight: 300;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--gradient-accent);
+      color: #fff;
+      text-decoration: none;
+      padding: 15px 32px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+      box-shadow: 0 4px 30px rgba(124, 58, 237, 0.4);
+      letter-spacing: 0.01em;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 40px rgba(124, 58, 237, 0.5); }
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      padding: 15px 28px;
+      border-radius: 50px;
+      font-weight: 500;
+      font-size: 0.95rem;
+      border: 1px solid var(--border);
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+    }
+    .btn-ghost:hover { border-color: var(--border-hover); color: var(--text-primary); background: rgba(124, 58, 237, 0.07); }
+    .hero-stat-row {
+      margin-top: 56px;
+      display: flex;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    .hero-stat { border-left: 2px solid rgba(124, 58, 237, 0.4); padding-left: 16px; }
+    .hero-stat strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 700;
+      background: var(--gradient-text);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.1;
+    }
+    .hero-stat span { font-size: 0.8rem; color: var(--text-muted); font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; }
+
+    /* ── SECTION SHARED ── */
+    section { padding: 100px 0; position: relative; z-index: 1; }
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--purple-soft);
+      margin-bottom: 16px;
+    }
+    .section-label::before {
+      content: '';
+      display: block;
+      width: 20px;
+      height: 1px;
+      background: var(--purple-soft);
+    }
+    .section-heading {
+      font-family: var(--font-display);
+      font-size: clamp(1.9rem, 4vw, 2.8rem);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.025em;
+      margin-bottom: 16px;
+    }
+    .section-sub {
+      color: var(--text-secondary);
+      font-size: 1.05rem;
+      line-height: 1.7;
+      max-width: 560px;
+      font-weight: 300;
+    }
+    .section-header { margin-bottom: 60px; }
+
+    /* ── FEATURES ── */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+    .feature-card {
+      background: var(--navy-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 36px;
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(79, 142, 247, 0.5), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .feature-card:hover { border-color: var(--border-hover); transform: translateY(-4px); box-shadow: 0 20px 60px rgba(124, 58, 237, 0.12); }
+    .feature-card:hover::before { opacity: 1; }
+    .feature-icon {
+      width: 52px; height: 52px;
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.2), rgba(124, 58, 237, 0.2));
+      border: 1px solid rgba(124, 58, 237, 0.25);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      overflow: hidden;
+      padding: 6px;
+      font-size: 1.4rem;
+    }
+
+    .feature-icon svg {
+      width: 100% !important;
+      height: 100% !important;
+    }
+    .feature-card h3 {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      letter-spacing: -0.01em;
+    }
+    .feature-card p { color: var(--text-secondary); font-size: 0.92rem; line-height: 1.7; font-weight: 300; }
+
+    /* ── HOW IT WORKS ── */
+    .how-bg {
+      background: linear-gradient(180deg, transparent, rgba(37,99,235,0.04) 30%, rgba(124,58,237,0.04) 70%, transparent);
+    }
+    .steps-wrapper {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      position: relative;
+    }
+    .steps-connector {
+      position: absolute;
+      top: 28px;
+      left: calc(16.67% + 28px);
+      right: calc(16.67% + 28px);
+      height: 1px;
+      background: linear-gradient(90deg, rgba(79,142,247,0.5), rgba(124,58,237,0.5));
+      z-index: 0;
+    }
+    .steps-connector::before,
+    .steps-connector::after {
+      content: '';
+      position: absolute;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      top: -2.5px;
+      background: var(--blue-bright);
+    }
+    .steps-connector::before { left: 0; }
+    .steps-connector::after { right: 0; background: var(--purple-soft); }
+    .step {
+      text-align: center;
+      padding: 0 28px;
+      position: relative;
+      z-index: 1;
+    }
+    .step-number {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: var(--gradient-accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #fff;
+      margin: 0 auto 24px;
+      position: relative;
+      box-shadow: 0 0 0 8px rgba(124, 58, 237, 0.12), 0 0 30px rgba(124, 58, 237, 0.3);
+    }
+    .step h3 {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      letter-spacing: -0.01em;
+    }
+    .step p { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.7; font-weight: 300; }
+
+    /* ── TESTIMONIALS ── */
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .testi-card {
+      background: var(--navy-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 30px;
+      transition: border-color 0.3s, transform 0.3s;
+      position: relative;
+    }
+    .testi-card:hover { border-color: var(--border-hover); transform: translateY(-3px); }
+    .testi-card.featured {
+      border-color: rgba(124, 58, 237, 0.35);
+      background: linear-gradient(135deg, rgba(10, 20, 52, 0.9), rgba(14, 10, 32, 0.9));
+    }
+    .testi-quote-icon {
+      font-size: 2.5rem;
+      line-height: 1;
+      color: rgba(124, 58, 237, 0.3);
+      font-family: Georgia, serif;
+      margin-bottom: 14px;
+    }
+    .stars {
+      color: #fbbf24;
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      margin-bottom: 14px;
+    }
+    .testi-text {
+      color: var(--text-secondary);
+      font-size: 0.92rem;
+      line-height: 1.75;
+      font-weight: 300;
+      font-style: italic;
+      margin-bottom: 20px;
+    }
+    .testi-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .testi-avatar {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--gradient-accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .testi-name {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--text-primary);
+    }
+    .testi-role { font-size: 0.78rem; color: var(--text-muted); }
+
+    .testi-note {
+      margin-top: 48px;
+      text-align: center;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    /* ── FAQ ── */
+    .faq-list { max-width: 760px; margin: 0 auto; }
+    .faq-item {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      margin-bottom: 12px;
+      overflow: hidden;
+      transition: border-color 0.3s;
+      background: var(--navy-card);
+    }
+    .faq-item.open { border-color: rgba(124, 58, 237, 0.3); }
+    .faq-q {
+      width: 100%;
+      background: none;
+      border: none;
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 0.97rem;
+      font-weight: 600;
+      text-align: left;
+      padding: 22px 26px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      transition: color 0.2s;
+      line-height: 1.45;
+    }
+    .faq-q:hover { color: var(--blue-bright); }
+    .faq-icon {
+      width: 26px; height: 26px;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 0.9rem;
+      color: var(--purple-soft);
+      transition: transform 0.3s, background 0.3s;
+    }
+    .faq-item.open .faq-icon { transform: rotate(45deg); background: rgba(124, 58, 237, 0.15); }
+    .faq-a {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.3s;
+      padding: 0 26px;
+    }
+    .faq-item.open .faq-a { max-height: 300px; padding: 0 26px 22px; }
+    .faq-a p { color: var(--text-secondary); font-size: 0.92rem; line-height: 1.75; font-weight: 300; }
+
+    /* ── CTA BANNER ── */
+    .cta-banner {
+      background: linear-gradient(135deg, rgba(37,99,235,0.15), rgba(124,58,237,0.12));
+      border: 1px solid rgba(124, 58, 237, 0.25);
+      border-radius: var(--radius-lg);
+      padding: 72px 60px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-banner::before {
+      content: '';
+      position: absolute;
+      top: -40%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px; height: 600px;
+      background: radial-gradient(ellipse, rgba(124,58,237,0.12), transparent 70%);
+      pointer-events: none;
+    }
+    .cta-banner h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      margin-bottom: 16px;
+    }
+    .cta-banner p {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      font-weight: 300;
+      margin-bottom: 36px;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.7;
+    }
+    .waitlist-form {
+      display: flex;
+      gap: 10px;
+      max-width: 440px;
+      margin: 0 auto;
+    }
+    .waitlist-input {
+      flex: 1;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      padding: 14px 22px;
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 0.92rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .waitlist-input::placeholder { color: var(--text-muted); }
+    .waitlist-input:focus { border-color: rgba(124, 58, 237, 0.45); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 48px 0 32px;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .footer-logo {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 700;
+      background: var(--gradient-text);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-decoration: none;
+    }
+    .footer-copy {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+    .social-links {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+    .social-link {
+      width: 40px; height: 40px;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: border-color 0.25s, color 0.25s, background 0.25s, transform 0.2s;
+    }
+    .social-link:hover { border-color: var(--border-hover); color: var(--text-primary); background: rgba(124, 58, 237, 0.1); transform: translateY(-2px); }
+    .social-link svg { width: 18px; height: 18px; fill: currentColor; }
+
+    /* ── DIVIDER ── */
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 0 auto;
+    }
+
+    /* ── BREAKS CARD HOVER GLOW ── */
+    #breaks-grid > div {
+      position: relative;
+      overflow: hidden;
+    }
+
+    #breaks-grid > div::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(
+        600px circle at var(--x, 50%) var(--y, 50%),
+        rgba(124, 58, 237, 0.12),
+        transparent 40%
+      );
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      pointer-events: none;
+    }
+
+    #breaks-grid > div:hover::after {
+      opacity: 1;
+    }
+
+    #breaks-grid > div:hover {
+      transform: translateY(-4px);
+      border-color: rgba(124, 58, 237, 0.35) !important;
+    }
+
+    /* ── PROBLEM BADGE + LOTTIE ── */
+    .problem-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, rgba(37,99,235,0.15), rgba(124,58,237,0.15));
+      border: 1px solid rgba(124, 58, 237, 0.35);
+      border-radius: 50px;
+      padding: 5px 14px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: #c4b5fd;
+      margin-bottom: 20px;
+    }
+
+    .problem-badge-lottie {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    .problem-badge-lottie svg {
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    /* ── SOLUTION BOX ── */
+    .solution-box {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      background: rgba(124, 58, 237, 0.10);
+      border: 1px solid rgba(124, 58, 237, 0.30);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      box-shadow: 0 0 20px rgba(124, 58, 237, 0.08);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .solution-box::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top left, rgba(37,99,235,0.10), transparent 45%);
+      pointer-events: none;
+    }
+
+    .check-icon {
+      color: #a78bfa;
+      font-size: 1rem;
+      margin-top: 1px;
+      flex-shrink: 0;
+      transform: scale(0.6);
+      opacity: 0;
+      transition: all 0.4s ease;
+    }
+
+    .fade-up.visible .check-icon {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    .solution-text {
+      color: #c4b5fd;
+      font-size: 0.85rem;
+      line-height: 1.65;
+      font-weight: 400;
+      margin: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── ANIMATIONS ── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: none; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .features-grid { grid-template-columns: 1fr; }
+      .steps-wrapper { grid-template-columns: 1fr; gap: 32px; }
+      .steps-connector { display: none; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .step { padding: 0; }
+    }
+    @media (max-width: 768px) {
+      section { padding: 72px 0; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .hero { padding: 100px 0 60px; min-height: auto; }
+      .hero h1 { font-size: 2.2rem; }
+      .hero-stat-row { gap: 24px; }
+      .cta-banner { padding: 48px 28px; }
+      .waitlist-form { flex-direction: column; }
+      .footer-inner { flex-direction: column; text-align: center; }
+      .footer-logo { order: 1; }
+      .social-links { order: 2; }
+      .footer-copy { order: 3; }
+    }
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 1.95rem; }
+      .hero-actions { flex-direction: column; }
+      .btn-primary, .btn-ghost { justify-content: center; }
+      .section-heading { font-size: 1.7rem; }
+      .features-grid { gap: 14px; }
+      .feature-card { padding: 26px; }
+    }
+  </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
+</head>
+<body>
+
+  <!-- Ambient background -->
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-inner">
+      <a href="#" class="nav-logo" style="display:flex;align-items:center;gap:9px;">
+        <img src="choreostafflogo.png" alt="ChoreoStaff Logo" style="height:28px;width:auto;display:block;" />
+        ChoreoStaff
+      </a>
+      <ul class="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#how-it-works">How It Works</a></li>
+        <li><a href="#reviews">Reviews</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#waitlist" class="nav-cta">Join Waitlist</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#features" onclick="closeMenu()">Features</a>
+    <a href="#how-it-works" onclick="closeMenu()">How It Works</a>
+    <a href="#reviews" onclick="closeMenu()">Reviews</a>
+    <a href="#faq" onclick="closeMenu()">FAQ</a>
+    <a href="#waitlist" class="mob-cta" onclick="closeMenu()">Join Waitlist →</a>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="container">
+      <div class="hero-badge">
+        <span class="dot"></span>
+        Launching Soon
+      </div>
+      <h1>Shift Scheduling<br /><span class="highlight">Shouldn't Be This Stressful.</span></h1>
+      <p class="hero-sub">
+        Plan your shifts ahead of time, catch scheduling conflicts before they happen, and keep all swaps and team communication organized.
+      </p>
+      <div class="hero-actions">
+        <a href="#waitlist" class="btn-primary">
+          Join the Waitlist
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="#how-it-works" class="btn-ghost">See How It Works</a>
+      </div>
+      <div class="hero-stat-row">
+        <div class="hero-stat">
+          <strong>Hours</strong>
+          <span>Saved each week</span>
+        </div>
+        <div class="hero-stat">
+          <strong>Zero</strong>
+          <span>Missed conflicts</span>
+        </div>
+        <div class="hero-stat">
+          <strong>One Place</strong>
+          <span>For everything</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCHEDULING BREAKS -->
+  <section id="why" style="padding:80px 0;">
+    <div class="container">
+      <div class="section-header fade-up" style="text-align:center;max-width:620px;margin-left:auto;margin-right:auto;">
+        <div class="section-label" style="justify-content:center;">The real problem</div>
+        <h2 class="section-heading">Scheduling breaks for<br/>three reasons.</h2>
+        <p class="section-sub" style="margin:0 auto;">Every manager knows the feeling. Here's exactly why it keeps happening — and what changes with ChoreoStaff.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;" class="fade-up" id="breaks-grid">
+        <!-- Reason 1 -->
+        <div style="background:var(--navy-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:32px;transition:transform 0.3s,border-color 0.3s;">
+          <div class="problem-badge">
+            <div class="problem-badge-lottie" id="warning-lottie-1"></div>
+            <span>Problem 01</span>
+          </div>
+          <h3 style="font-family:var(--font-display);font-size:1.05rem;font-weight:700;margin-bottom:12px;letter-spacing:-0.01em;">Availability lives in texts and DMs</h3>
+          <p style="color:var(--text-secondary);font-size:0.9rem;line-height:1.75;font-weight:300;margin-bottom:20px;">Managers spend hours every week hunting down availability through group chats, personal texts, and word-of-mouth. Things get missed. Schedules get built on incomplete information.</p>
+          <div class="solution-box">
+            <span class="check-icon">✓</span>
+            <p class="solution-text">Staff submit availability directly in ChoreoStaff — centralized, searchable, always up to date.</p>
+          </div>
+        </div>
+        <!-- Reason 2 -->
+        <div style="background:var(--navy-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:32px;transition:transform 0.3s,border-color 0.3s;">
+          <div class="problem-badge">
+            <div class="problem-badge-lottie" id="warning-lottie-2"></div>
+            <span>Problem 02</span>
+          </div>
+          <h3 style="font-family:var(--font-display);font-size:1.05rem;font-weight:700;margin-bottom:12px;letter-spacing:-0.01em;">Swap requests fall through the cracks</h3>
+          <p style="color:var(--text-secondary);font-size:0.9rem;line-height:1.75;font-weight:300;margin-bottom:20px;">A staff member texts a coworker, who texts the manager, who forgets to update the schedule. Shift goes uncovered. Manager finds out at the last minute. Chaos follows.</p>
+          <div class="solution-box">
+            <span class="check-icon">✓</span>
+            <p class="solution-text">Every swap request is made in-app, tied to the shift, and routed to you for a single approval tap.</p>
+          </div>  
+        </div>
+        <!-- Reason 3 -->
+        <div style="background:var(--navy-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:32px;transition:transform 0.3s,border-color 0.3s;">
+          <div class="problem-badge">
+            <div class="problem-badge-lottie" id="warning-lottie-3"></div>
+            <span>Problem 03</span>
+          </div>
+          <h3 style="font-family:var(--font-display);font-size:1.05rem;font-weight:700;margin-bottom:12px;letter-spacing:-0.01em;">Conflicts only surface after publishing</h3>
+          <p style="color:var(--text-secondary);font-size:0.9rem;line-height:1.75;font-weight:300;margin-bottom:20px;">Double-bookings, overtime violations, understaffed shifts — you only find out when someone doesn't show up or when payroll flags it. By then, the damage is already done.</p>
+          <div style="display:flex;align-items:flex-start;gap:10px;background: rgba(124, 58, 237, 0.10);border: 1px solid rgba(124, 58, 237, 0.30);border-radius:var(--radius-sm);padding:14px 16px;">
+            <span class="check-icon">✓</span>
+            <p style="color:#c4b5fd;font-size:0.85rem;line-height:1.65;font-weight:400;margin:0;">ChoreoStaff flags double-bookings, overtime risks, and gaps automatically — before you ever hit publish.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <style>
+    @media (max-width: 900px) { #breaks-grid { grid-template-columns: 1fr !important; } }
+  </style>
+
+  <!-- FEATURES -->
+  <section id="features">
+    <div class="container">
+      <div class="section-header fade-up">
+        <div class="section-label">Built to the bone</div>
+        <h2 class="section-heading">Everything your team needs.<br />Nothing they don't.</h2>
+        <p class="section-sub">No bloat. No complexity. Just the tools that actually matter for shift-based teams running on tight margins and tight timelines.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card fade-up">
+          <div class="feature-icon" id="lottie-smart-robot"></div>
+          <h3>Smart Conflict Detection</h3>
+          <p>ChoreoStaff automatically flags double-bookings, overtime risks, and scheduling gaps before you publish. Catch problems early so your team never shows up to a broken schedule.</p>
+        </div>
+        <div class="feature-card fade-up" style="transition-delay:0.08s">
+          <div class="feature-icon"  id="lottie-swap-arrow"></div>
+          <h3>Shift Swap Management</h3>
+          <p>Employees request and handle their own swaps inside the app. No more texts to the manager, no more relaying messages between staff. You approve or deny — that's it. Every swap is logged with a full history.</p>
+        </div>
+        <div class="feature-card fade-up" style="transition-delay:0.16s">
+          <div class="feature-icon" id="lottie-coms"></div>
+          <h3>Centralized Team Communication</h3>
+          <p>All schedule changes, requests, and updates live inside ChoreoStaff alongside the shifts they relate to. No more digging through group chats. Everything is visible, trackable, and in one place.</p>
+        </div>
+        <div class="feature-card fade-up" style="transition-delay:0.24s">
+          <div class="feature-icon" id="lottie-building"></div>
+          <h3>Built for Operators</h3>
+          <p>Designed for restaurants, retail, events, hospitality, and more. ChoreoStaff is a scheduling and operations platform — not a payroll tool or timeclock. It gives managers hours back every week.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DIVIDER -->
+  <div class="container"><div class="divider"></div></div>
+
+  <!-- HOW IT WORKS -->
+  <section id="how-it-works" class="how-bg">
+    <div class="container">
+      <div class="section-header fade-up" style="text-align:center; max-width:600px; margin-left:auto; margin-right:auto;">
+        <div class="section-label" style="justify-content:center;">Simple by design</div>
+        <h2 class="section-heading">How ChoreoStaff Works</h2>
+        <p class="section-sub" style="margin:0 auto;">From empty calendar to fully staffed week — in three simple steps. No training required, no learning curve.</p>
+      </div>
+      <div class="steps-wrapper fade-up">
+        <div class="steps-connector"></div>
+        <div class="step">
+          <div class="step-number">1</div>
+          <h3>Manager Creates the Schedule</h3>
+          <p>Build your shift schedule in advance. Set roles, hours, and team assignments. ChoreoStaff instantly flags any conflicts or coverage gaps before you publish.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <h3>Staff Submit Availability &amp; Swaps</h3>
+          <p>Your team submits their availability and requests shift swaps directly in the app — no texts, no group chats. Everything routes to the right place automatically.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <h3>Manager Approves, Conflicts Flagged</h3>
+          <p>Review requests with full context and one-tap approvals. Any conflicts are highlighted automatically — so nothing slips through and nothing needs to be chased.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DIVIDER -->
+  <div class="container"><div class="divider"></div></div>
+
+  <!-- TESTIMONIALS -->
+  <section id="reviews">
+    <div class="container">
+      <div class="section-header fade-up">
+        <div class="section-label">Early feedback</div>
+        <h2 class="section-heading">What people are saying</h2>
+        <p class="section-sub">We've been talking to shift managers and operators across different industries. Their take is consistent — and it keeps us building.</p>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testi-card fade-up">
+          <div class="testi-quote-icon">"</div>
+          <div class="stars">★★★★★</div>
+          <p class="testi-text">Managing a restaurant floor means constant last-minute chaos. Just hearing about what ChoreoStaff does — I immediately knew it would've saved me from a dozen headaches last month alone.</p>
+          <div class="testi-author">
+            <div class="testi-avatar">MR</div>
+            <div>
+              <div class="testi-name">Marcus R.</div>
+              <div class="testi-role">Floor Manager, Restaurant Group</div>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card featured fade-up" style="transition-delay:0.1s">
+          <div class="testi-quote-icon">"</div>
+          <div class="stars">★★★★★</div>
+          <p class="testi-text">I run a retail team across two locations and scheduling is genuinely the most stressful part of my week. The concept here is exactly what I've been looking for. This would change things for us.</p>
+          <div class="testi-author">
+            <div class="testi-avatar">SL</div>
+            <div>
+              <div class="testi-name">Sandra L.</div>
+              <div class="testi-role">Operations Lead, Retail Chain</div>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card fade-up" style="transition-delay:0.2s">
+          <div class="testi-quote-icon">"</div>
+          <div class="stars">★★★★★</div>
+          <p class="testi-text">We use four different apps right now just to handle shifts, swaps, and communication. The fact that ChoreoStaff wraps it all into one — that's the dream. Can't wait for the launch.</p>
+          <div class="testi-author">
+            <div class="testi-avatar">DJ</div>
+            <div>
+              <div class="testi-name">Daniel J.</div>
+              <div class="testi-role">Events Coordinator, Hospitality Co.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="testi-note fade-up">Feedback from early conversations with shift managers and operators across restaurant, retail, and hospitality industries.</p>
+    </div>
+  </section>
+
+  <!-- DIVIDER -->
+  <div class="container"><div class="divider"></div></div>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="container">
+      <div class="section-header fade-up" style="text-align:center; max-width:560px; margin-left:auto; margin-right:auto;">
+        <div class="section-label" style="justify-content:center;">Quick answers</div>
+        <h2 class="section-heading">Frequently Asked Questions</h2>
+        <p class="section-sub" style="margin:0 auto;">Everything you need to know before you sign up. Still have questions? We'd love to hear from you.</p>
+      </div>
+      <div class="faq-list fade-up">
+
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            What exactly is ChoreoStaff?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a"><p>ChoreoStaff is a shift scheduling and operations platform built for managers and operators of shift-based businesses. It helps you build and publish schedules in advance, automatically detect conflicts before they become problems, manage swap requests in one place, and keep all team communication tied to the shifts they belong to.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            Is ChoreoStaff an HRIS or a CRM?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a"><p>Neither. ChoreoStaff is a scheduling and team operations tool — not a human resources information system (HRIS) and not a customer relationship manager (CRM). It doesn't handle payroll, employee records, or customer data. It handles the day-to-day operational challenge of managing shifts, availability, swaps, and communication for your team.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            What types of businesses is it built for?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a"><p>ChoreoStaff is built for any shift-based business — restaurants, cafes, retail stores, hospitality venues, events companies, gyms, and more. If your team works in shifts and you've ever had to manage availability over text or chase down swap approvals, ChoreoStaff is built for you.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            Does it replace our current scheduling tool?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a"><p>For most teams, yes. ChoreoStaff is designed to be your single operations hub for scheduling — replacing spreadsheets, group chats, and disconnected apps. If your current setup involves multiple tools to handle what ChoreoStaff does in one, it's a direct replacement with significantly less friction.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            When is ChoreoStaff launching?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a"><p>ChoreoStaff is currently in development and launching soon. Join the waitlist to get early access, priority onboarding, and to be the first to know when we go live. Early waitlist members will receive priority access ahead of the general public launch.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            Is there a mobile app?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a"><p>ChoreoStaff is being built with mobile-first access in mind, so your staff can submit availability, request swaps, and stay updated from their phones — no desktop required. Full details on app availability will be shared with waitlist members first.</p></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA SECTION -->
+  <section id="waitlist">
+    <div class="container">
+      <div class="cta-banner fade-up">
+        <div class="section-label" style="justify-content:center; margin-bottom:16px;">Early Access</div>
+        <h2>Ready to stop managing<br />chaos with group chats?</h2>
+        <p>Join the waitlist for priority access and early onboarding when ChoreoStaff launches.</p>
+        <div class="waitlist-form">
+          <input type="email" class="waitlist-input" placeholder="Enter your work email" />
+          <a href="#" class="btn-primary" style="white-space:nowrap">
+            Join Waitlist
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <a href="#" class="footer-logo">ChoreoStaff</a>
+        <span class="footer-copy">© 2025 ChoreoStaff. All rights reserved.</span>
+        <div class="social-links">
+          <!-- LinkedIn -->
+          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          </a>
+          <!-- TikTok -->
+          <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="TikTok">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+          </a>
+          <!-- Instagram -->
+          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ── HAMBURGER ──
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    hamburger.addEventListener('click', () => {
+      mobileMenu.classList.toggle('open');
+    });
+    function closeMenu() { mobileMenu.classList.remove('open'); }
+
+    // ── FAQ ──
+    function toggleFaq(btn) {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    }
+
+    // ── SCROLL ANIMATIONS ──
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+        // ── CURSOR GLOW TRACKING ──
+    document.querySelectorAll('#breaks-grid > div').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        card.style.setProperty('--x', `${e.clientX - rect.left}px`);
+        card.style.setProperty('--y', `${e.clientY - rect.top}px`);
+      });
+    });
+
+        // ── WARNING LOTTIES ──
+    ['warning-lottie-1', 'warning-lottie-2', 'warning-lottie-3'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        lottie.loadAnimation({
+          container: el,
+          renderer: 'svg',
+          loop: true,
+          autoplay: true,
+          path: 'warning.json'
+        });
+      }
+    });
+
+    // ── LOTTIE FEATURE ICONS ──
+    lottie.loadAnimation({
+      container: document.getElementById('lottie-smart-robot'),
+      renderer: 'svg',
+      loop: true,
+      autoplay: true,
+      path: 'SmartRobot.json'
+    });
+
+    lottie.loadAnimation({
+      container: document.getElementById('lottie-swap-arrow'),
+      renderer: 'svg',
+      loop: true,
+      autoplay: true,
+      path: 'SwapArrow.json'
+    });
+
+    lottie.loadAnimation({
+      container: document.getElementById('lottie-coms'),
+      renderer: 'svg',
+      loop: true,
+      autoplay: true,
+      path: 'Coms.json'
+    });
+
+    lottie.loadAnimation({
+      container: document.getElementById('lottie-building'),
+      renderer: 'svg',
+      loop: true,
+      autoplay: true,
+      path: 'Building.json'
+    });
+  </script>
+</body>
+</html>
