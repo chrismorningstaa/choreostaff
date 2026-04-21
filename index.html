@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ChoreoStaff</title>
+  <meta name="description" content="Shift scheduling software that helps managers prevent conflicts, manage swaps, and organize team communication all in one platform." />
+  <title>ChoreoStaff | Shift Scheduling Software for Teams</title>
   <link rel="icon" type="image/jpeg" href="choreostafflogo.png"/>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -32,7 +33,7 @@
       --radius-lg: 20px;
       --radius-md: 14px;
       --radius-sm: 10px;
-      --font-display: 'Syne', sans-serif;
+      --font-display: 'Inter', sans-serif;
       --font-body: 'DM Sans', sans-serif;
     }
 
@@ -117,6 +118,11 @@
       text-decoration: none;
       letter-spacing: -0.02em;
     }
+
+    .nav-logo, .footer-logo {
+      font-weight: 700;
+    }
+
     .nav-links {
       display: flex;
       align-items: center;
@@ -804,6 +810,22 @@
       z-index: 1;
     }
 
+    #typewriter {
+      display: inline-block;
+      min-height: 1.2em;
+    }
+
+    #typewriter::after {
+      content: "|";
+      margin-left: 4px;
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%, 50%, 100% { opacity: 1; }
+      25%, 75% { opacity: 0; }
+    }
+
     /* ── ANIMATIONS ── */
     .fade-up {
       opacity: 0;
@@ -888,9 +910,9 @@
         <span class="dot"></span>
         Launching Soon
       </div>
-      <h1>Shift Scheduling<br /><span class="highlight">Shouldn't Be This Stressful.</span></h1>
+      <h1>Shift Scheduling<br /><span class="highlight" id="typewriter"></span></h1>
       <p class="hero-sub">
-        Plan your shifts ahead of time, catch scheduling conflicts before they happen, and keep all swaps and team communication organized.
+         Simplify workforce scheduling: plan shifts, prevent conflicts, and manage swap requests all in one system.
       </p>
       <div class="hero-actions">
         <a href="#waitlist" class="btn-primary">
@@ -922,7 +944,7 @@
       <div class="section-header fade-up" style="text-align:center;max-width:620px;margin-left:auto;margin-right:auto;">
         <div class="section-label" style="justify-content:center;">The real problem</div>
         <h2 class="section-heading">Scheduling breaks for<br/>three reasons.</h2>
-        <p class="section-sub" style="margin:0 auto;">Every manager knows the feeling. Here's exactly why it keeps happening and what changes with ChoreoStaff.</p>
+        <p class="section-sub" style="margin:0 auto;"> Stop Employee Scheduling Conflicts: Why Shift Planning Fails and How ChoreoStaff Fixes It</p>
       </div>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;" class="fade-up" id="breaks-grid">
         <!-- Reason 1 -->
@@ -976,8 +998,9 @@
     <div class="container">
       <div class="section-header fade-up">
         <div class="section-label">Built to the bone</div>
-        <h2 class="section-heading">Everything your team needs.<br />Nothing they don't.</h2>
-        <p class="section-sub">No bloat. No complexity. Just the tools that actually matter for shift-based teams running on tight margins and tight timelines.</p>
+        <h2 class="section-heading">Everything for workforce scheduling.<br />Nothing but what you need.</h2>
+        <p class="section-sub">Simple, affordable employee scheduling for shift-based teams.
+        No bloat, no complexity—just the tools that matter for tight margins and timelines.</p>
       </div>
       <div class="features-grid">
         <div class="feature-card fade-up">
@@ -1175,8 +1198,11 @@
   <footer>
     <div class="container">
       <div class="footer-inner">
-        <a href="#" class="footer-logo">ChoreoStaff</a>
-        <span class="footer-copy">© 2025 ChoreoStaff. All rights reserved.</span>
+        <a href="#" class="footer-logo" style="display:flex;align-items:center;gap:9px;">
+          <img src="choreostafflogo.png" alt="ChoreoStaff Logo" style="height:24px;width:auto;display:block;" />
+          ChoreoStaff
+        </a>
+        <span class="footer-copy">© 2026 ChoreoStaff. All rights reserved.</span>
         <div class="social-links">
           <!-- LinkedIn -->
           <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn">
@@ -1276,6 +1302,45 @@
       autoplay: true,
       path: 'Building.json'
     });
+
+    // ── Title ──
+    const texts = [
+      "Shouldn't Be This Stressful.",
+      "Automate Schedules in Minutes."
+    ];
+
+    let textIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+
+    const typewriterEl = document.getElementById('typewriter');
+
+    function typeEffect() {
+      const currentText = texts[textIndex];
+
+      if (isDeleting) {
+        charIndex--;
+      } else {
+        charIndex++;
+      }
+
+      typewriterEl.textContent = currentText.substring(0, charIndex);
+
+      let speed = isDeleting ? 40 : 70;
+
+      if (!isDeleting && charIndex === currentText.length) {
+        speed = 1400;
+        isDeleting = true;
+      } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        textIndex = (textIndex + 1) % texts.length;
+        speed = 400;
+      }
+
+      setTimeout(typeEffect, speed);
+    }
+
+    typeEffect();
   </script>
 </body>
 </html>
