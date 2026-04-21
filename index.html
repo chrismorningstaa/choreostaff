@@ -6,6 +6,7 @@
   <meta name="description" content="Shift scheduling software that helps managers prevent conflicts, manage swaps, and organize team communication all in one platform." />
   <title>ChoreoStaff | Shift Scheduling Software for Teams</title>
   <link rel="icon" type="image/jpeg" href="choreostafflogo.png"/>
+  <link rel="canonical" href="https://choreostaff.vercel.app/" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet" />
@@ -865,7 +866,18 @@
       .feature-card { padding: 26px; }
     }
   </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "ChoreoStaff",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web",
+  "description": "ChoreoStaff is a shift scheduling platform that helps teams plan schedules, prevent conflicts, and manage swaps and communication in one place.",
+  "url": "https://yourdomain.com/"
+}
+</script>
 </head>
 <body>
 
@@ -1248,14 +1260,15 @@
     document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
         // ── CURSOR GLOW TRACKING ──
-    document.querySelectorAll('#breaks-grid > div').forEach(card => {
-      card.addEventListener('mousemove', e => {
-        const rect = card.getBoundingClientRect();
-        card.style.setProperty('--x', `${e.clientX - rect.left}px`);
-        card.style.setProperty('--y', `${e.clientY - rect.top}px`);
+    if (window.innerWidth > 768) {
+      document.querySelectorAll('#breaks-grid > div').forEach(card => {
+        card.addEventListener('mousemove', e => {
+          const rect = card.getBoundingClientRect();
+          card.style.setProperty('--x', `${e.clientX - rect.left}px`);
+          card.style.setProperty('--y', `${e.clientY - rect.top}px`);
+        });
       });
-    });
-
+    }
         // ── WARNING LOTTIES ──
     ['warning-lottie-1', 'warning-lottie-2', 'warning-lottie-3'].forEach(id => {
       const el = document.getElementById(id);
