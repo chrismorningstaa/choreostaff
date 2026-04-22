@@ -408,6 +408,72 @@
     }
     .feature-card p { color: var(--text-secondary); font-size: 0.92rem; line-height: 1.7; font-weight: 300; }
 
+
+    /* ── RESOURCES ── */
+    .resource-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .resource-card {
+      background: var(--navy-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    }
+
+    .resource-card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(124, 58, 237, 0.12);
+    }
+
+    .resource-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 12px;
+      border-radius: 50px;
+      background: rgba(79, 142, 247, 0.1);
+      border: 1px solid rgba(79, 142, 247, 0.25);
+      color: var(--blue-bright);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    .resource-card h3 {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 14px;
+    }
+
+    .resource-card p {
+      color: var(--text-secondary);
+      font-size: 0.98rem;
+      line-height: 1.75;
+      max-width: 760px;
+      margin-bottom: 22px;
+    }
+
+    .resource-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .resource-link:hover {
+      color: var(--blue-bright);
+    }
+
     /* ── HOW IT WORKS ── */
     .how-bg {
       background: linear-gradient(180deg, transparent, rgba(37,99,235,0.04) 30%, rgba(124,58,237,0.04) 70%, transparent);
@@ -882,7 +948,7 @@
   "applicationCategory": "BusinessApplication",
   "operatingSystem": "Web",
   "description": "ChoreoStaff is a shift scheduling platform that helps teams plan schedules, prevent conflicts, and manage swaps and communication in one place.",
-  "url": "https://yourdomain.com/"
+  "url": "https://choreostaff.vercel.app/"
 }
 </script>
 </head>
@@ -902,6 +968,7 @@
       </a>
       <ul class="nav-links">
         <li><a href="#features">Features</a></li>
+        <li><a href="#resources">Resources</a></li>
         <li><a href="#how-it-works">How It Works</a></li>
         <li><a href="#reviews">Reviews</a></li>
         <li><a href="#faq">FAQ</a></li>
@@ -916,6 +983,7 @@
   <!-- MOBILE MENU -->
   <div class="mobile-menu" id="mobileMenu">
     <a href="#features" onclick="closeMenu()">Features</a>
+    <a href="#resources" onclick="closeMenu()">Resources</a>
     <a href="#how-it-works" onclick="closeMenu()">How It Works</a>
     <a href="#reviews" onclick="closeMenu()">Reviews</a>
     <a href="#faq" onclick="closeMenu()">FAQ</a>
@@ -1048,6 +1116,33 @@
 
   <!-- DIVIDER -->
   <div class="container"><div class="divider"></div></div>
+
+    <!-- RESOURCES -->
+  <section id="resources">
+    <div class="container">
+      <div class="section-header fade-up">
+        <div class="section-label">Resources</div>
+        <h2 class="section-heading">Guides for better workforce scheduling</h2>
+        <p class="section-sub">Actionable articles on shift planning, compliance, communication, and reducing scheduling conflicts.</p>
+      </div>
+
+      <div class="resource-grid fade-up">
+        <article class="resource-card">
+          <div class="resource-pill">Blog</div>
+          <h3>Top 5 Shift Scheduling Problems &amp; How to Solve Them</h3>
+          <p>
+            Double-booking, last-minute call-outs, compliance risks, poor communication, and manual scheduling can all disrupt operations. Learn how automation helps solve them.
+          </p>
+          <a href="blog/top-5-shift-scheduling-problems/" class="resource-link">
+            Read Article
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </article>
+      </div>
+    </div>
+  </section>
 
   <!-- HOW IT WORKS -->
   <section id="how-it-works" class="how-bg">
