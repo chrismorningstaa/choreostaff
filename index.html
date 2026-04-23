@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Shift scheduling software that helps managers prevent conflicts, manage swaps, and organize team communication all in one platform." />
+  <meta name="google-site-verification" content="b7ocKq7Hlm54g1qSp2JYSCtN8fw50Sqb6_qIYI1DBdY" />
   <title>ChoreoStaff | Shift Scheduling Software for Teams</title>
   <link rel="icon" type="image/jpeg" href="assets/images/choreostafflogo.png"/>
   <link rel="canonical" href="https://choreostaff.vercel.app/" />
@@ -951,6 +952,7 @@
   "url": "https://choreostaff.vercel.app/"
 }
 </script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6X3NCXWVBD"></script>
 </head>
 <body>
 
@@ -1351,6 +1353,11 @@
       document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
       if (!isOpen) item.classList.add('open');
     }
+
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-6X3NCXWVBD');
 
     // ── SCROLL ANIMATIONS ──
     const observer = new IntersectionObserver((entries) => {
