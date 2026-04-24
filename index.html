@@ -413,7 +413,7 @@
     /* ── RESOURCES ── */
     .resource-grid {
       display: grid;
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(2, 1fr);
       gap: 20px;
     }
 
@@ -924,6 +924,7 @@
       .nav-inner,
       .container { padding-left: 20px; padding-right: 20px;}
       .hero-stat-row { gap: 24px; }
+      .resource-grid { grid-template-columns: 1fr; }
       .cta-banner { padding: 48px 28px; }
       .waitlist-form { flex-direction: column; }
       .footer-inner { flex-direction: column; text-align: center; }
@@ -1119,21 +1120,25 @@
   <!-- DIVIDER -->
   <div class="container"><div class="divider"></div></div>
 
-    <!-- RESOURCES -->
+  <!-- RESOURCES -->
   <section id="resources">
     <div class="container">
       <div class="section-header fade-up">
         <div class="section-label">Resources</div>
         <h2 class="section-heading">Guides for better workforce scheduling</h2>
-        <p class="section-sub">Actionable articles on shift planning, compliance, communication, and reducing scheduling conflicts.</p>
+        <p class="section-sub">
+          Actionable articles on shift planning, reducing conflicts, improving communication, and managing teams more efficiently.
+        </p>
       </div>
 
       <div class="resource-grid fade-up">
+
+        <!-- BLOG 1 -->
         <article class="resource-card">
           <div class="resource-pill">Blog</div>
           <h3>Top 5 Shift Scheduling Problems &amp; How to Solve Them</h3>
           <p>
-            Double-booking, last-minute call-outs, compliance risks, poor communication, and manual scheduling can all disrupt operations. Learn how automation helps solve them.
+            Double-booking, last-minute call-outs, compliance risks, and poor communication can disrupt operations. Learn how automation helps solve them.
           </p>
           <a href="blog/top-5-shift-scheduling-problems/" class="resource-link">
             Read Article
@@ -1142,6 +1147,37 @@
             </svg>
           </a>
         </article>
+
+        <!-- BLOG 2 -->
+        <article class="resource-card">
+          <div class="resource-pill">Blog</div>
+          <h3>What is Shift Scheduling Software? (Beginner Guide)</h3>
+          <p>
+            Learn how shift scheduling software works, why manual scheduling fails, and how automation helps teams reduce conflicts and save time.
+          </p>
+          <a href="blog/what-is-shift-scheduling-software/" class="resource-link">
+            Read Article
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </article>
+
+        <!-- BLOG 3 -->
+        <article class="resource-card">
+          <div class="resource-pill">Blog</div>
+          <h3>How to Reduce Employee No-Shows (Practical Guide)</h3>
+          <p>
+            Discover practical ways to reduce employee no-shows using better scheduling, communication, accountability, and automation.
+          </p>
+          <a href="blog/how-to-reduce-employee-no-shows/" class="resource-link">
+            Read Article
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </article>
+
       </div>
     </div>
   </section>
